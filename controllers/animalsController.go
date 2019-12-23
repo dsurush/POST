@@ -16,24 +16,40 @@ func GetAnimalHandler(w http.ResponseWriter, r *http.Request, p httprouter.Param
 	fmt.Fprintf(w, p.ByName("id"))
 }
 
+//func GetAnimalsHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+//	fmt.Fprintf()
+//}
+
 // HelloHandler - dfgdfg
 func CreateAnimalHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	// TODO:
 	//
-	var requestBody models.AddAnimalRequest
+	var responseBody models.AddAnimalResponse
 
+	var requestBody models.AddAnimalRequest
 	err := json.NewDecoder(r.Body).Decode(&requestBody)
 
 	if err != nil {
+		responseBody.Error = true
+		responseBody.Description = err.Error()
+
 		log.Println(err)
 
 		// Установил статус кода 400
 		w.WriteHeader(http.StatusBadRequest)
-
-		fmt.Fprintf(w, err.Error())
+		json.NewEncoder(w).Encode(&responseBody)
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	json.NewEncoder(w).Encode(&requestBody)
+	// TODO:
+	// 1. Сохранение в бд
+	// 2. Возвращение сохраненных данных
+	responseBody.Animal = &models.Animal{
+		ID:     "21312344",
+		Name:   requestBody.Name,
+		Gender: requestBody.Gender,
+	}
+
+	json.NewEncoder(w).Encode(&responseBody)
 }
