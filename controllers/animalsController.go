@@ -16,9 +16,16 @@ func GetAnimalHandler(w http.ResponseWriter, r *http.Request, p httprouter.Param
 	fmt.Fprintf(w, p.ByName("id"))
 }
 
-//func GetAnimalsHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-//	fmt.Fprintf()
-//}
+//TO DO
+func GetAnimalsHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	res := models.GetAnimalsResponse{}
+
+	res.Animals, _ = getAnimals()
+
+	json.NewEncoder(w).Encode(res)
+
+}
 
 // HelloHandler - dfgdfg
 func CreateAnimalHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -52,4 +59,22 @@ func CreateAnimalHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Pa
 	}
 
 	json.NewEncoder(w).Encode(&responseBody)
+}
+
+//
+func getAnimals() ([]*models.Animal, error) {
+	animals := []*models.Animal{
+		&models.Animal{
+			ID:     "2323",
+			Name:   "Vasya",
+			Gender: "Khan",
+		},
+		&models.Animal{
+			ID:     "34r5w34rw34",
+			Name:   "Anatoliy",
+			Gender: "Vasserman",
+		},
+	}
+
+	return animals, nil
 }
