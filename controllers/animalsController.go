@@ -78,3 +78,11 @@ func getAnimals() ([]*models.Animal, error) {
 
 	return animals, nil
 }
+
+// Повторяем вчерашнюю тему
+func GettestaAnimalHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	fmt.Fprintf(w, p.ByName("id"))
+}
+
+//Creat new Animal

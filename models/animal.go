@@ -13,7 +13,7 @@ type AddAnimalRequest struct {
 }
 
 type AddAnimalResponse struct {
-	Error       bool    `json:"error"`
+	Error       bool    `json:"error,omitempty"`
 	Description string  `json:"description,omitempty"`
 	Animal      *Animal `json:"animal,omitempty"`
 }
